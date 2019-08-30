@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Travel</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Header bar  -->
+      <%= react_component 'layout/GlobalAppBar', :pageTitle => @page_title %>
+
+      <!-- Main view content -->
+      <div class="content">
+        <%= yield %>
+      </div>
+
+      <!-- Flash messages -->
+      <%= react_component 'layout/GlobalFlashMessage', :alert => alert, :notice => notice %>
+    </div>
+  </body>
+</html>
