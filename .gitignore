@@ -30,4 +30,5 @@ travelapp/yarn-error.log
 travelapp/yarn-debug.log*
 travelapp/.yarn-integrity
 
+.DS_Store
 db/*
