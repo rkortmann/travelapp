@@ -1,9 +1,0 @@
-version: "2"
-
-options:
-  verbose: true
-syncs:
-  travelapp-sync:
-    src: '.'
-  postgres-sync:
-    src: './tmp/db'

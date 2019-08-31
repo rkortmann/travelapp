@@ -5,10 +5,8 @@ RUN apt-get update -qq && apt-get install -y build-essential nodejs yarn postgre
 
 RUN mkdir /travelapp
 WORKDIR /travelapp
-COPY Gemfile /travelapp/Gemfile
-COPY Gemfile.lock /travelapp/Gemfile.lock
+COPY ./travelapp /travelapp
 RUN bundle install
-COPY . /travelapp
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/

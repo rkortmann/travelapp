@@ -5,11 +5,11 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/.bundle
+travelapp/.bundle
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
+travelapp/log/*
+travelapp/tmp/*
 !/log/.keep
 !/tmp/.keep
 
@@ -17,15 +17,17 @@
 /storage/*
 !/storage/.keep
 
-/public/assets
-.byebug_history
+travelapp/public/assets
+travelapp/.byebug_history
 
 # Ignore master key for decrypting credentials and more.
-/config/master.key
+travelapp/config/master.key
 
-/public/packs
-/public/packs-test
-/node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
+travelapp/public/packs
+travelapp/public/packs-test
+travelapp/node_modules
+travelapp/yarn-error.log
+travelapp/yarn-debug.log*
+travelapp/.yarn-integrity
+
+db/*

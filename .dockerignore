@@ -1,5 +1,5 @@
 .git
 .byebug_history
-/node_modules
-/log/*
-/tmp/*
+/travelapp/node_modules
+/travelapp/log/*
+/travelapp/tmp/*
