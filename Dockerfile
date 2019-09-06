@@ -6,6 +6,7 @@ RUN apt-get update -qq && apt-get install -y build-essential nodejs yarn postgre
 RUN mkdir /travelapp
 WORKDIR /travelapp
 COPY ./travelapp /travelapp
+
 RUN bundle install
 
 # Add a script to be executed every time the container starts.
