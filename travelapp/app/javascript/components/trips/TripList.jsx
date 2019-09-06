@@ -38,6 +38,10 @@ export default function TripList(props) {
     isFetching: false,
     trips: []
   });
+
+  function selectTrip(id) {
+    window.location = `/trips/${id}`
+  }
   
 
   // Loading
@@ -66,7 +70,7 @@ export default function TripList(props) {
         {
           trips.map((trip, idx) => {
             return (
-              <ListItem key={idx}>
+              <ListItem key={idx} onClick={() => { selectTrip(trip.id); }}>
                 <ListItemAvatar>
                   <Avatar>
                     <ImageIcon />

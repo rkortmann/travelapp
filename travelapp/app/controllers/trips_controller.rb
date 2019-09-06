@@ -11,15 +11,13 @@ class TripsController < ApplicationController
   #
   # Simple trip list react app
   #
-  def index
-    
-  end
+  def index; end
 
   #
   # React app that handles CRUD
   # on all trip properties
   #
   def show
-    @trip = Trip.find_by(:id => params[:id])
+    @trip_id = params[:id]
   end
 end

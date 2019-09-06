@@ -1,6 +1,7 @@
 import React from 'react';
 
 function apiRequest(url, params = {}, data = false) {
+  // Pass cookies and the CSRF token by default
   const defaultParams = {
     credentials: 'same-origin',
     headers: {
@@ -8,12 +9,14 @@ function apiRequest(url, params = {}, data = false) {
       'X-CSRF-Token': document.querySelector('[name=csrf-token]').content
     }
   }
+
+  // Build the params
   params = {...defaultParams, ...params};
+
+  // Add a body
   if(data) {
     params.body = JSON.stringify(data)
   }
-
-  console.log(params);
 
   return fetch(
     url,
@@ -27,11 +30,16 @@ function apiRequest(url, params = {}, data = false) {
 
 export default {
   trips: {
-    index: () => { return apiRequest('/api/trips'); },
+    index: () => {
+      return apiRequest('/api/trips');
+    },
     create: (data) => {
       return apiRequest('/api/trips', {
         method: 'post'
       }, data);
+    },
+    show: (id) => {
+      return apiRequest(`/api/trips/${id}`)
     }
   }
 }

@@ -24,6 +24,7 @@ export default function TripListContainer(props) {
 
     const response = await Api.trips.index();
     setTrips(response.data.trips || []);
+
     setIsFetching(false);
   }
 

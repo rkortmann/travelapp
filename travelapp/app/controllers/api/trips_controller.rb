@@ -30,4 +30,20 @@ class Api::TripsController < Api::ApplicationController
 
     return api_response(true, :trip => trip)
   end
+
+  #
+  # Show a trip
+  #
+  def show
+    id = params[:id]
+
+    trip = Trip.find_by(:id => id)
+    trip_data = trip.as_json(:include => [:trip_schedules])
+
+    if trip
+      api_response(true, :trip => trip_data)
+    else
+      api_response(false, :trip => {})
+    end
+  end
 end

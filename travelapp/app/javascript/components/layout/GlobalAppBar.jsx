@@ -27,9 +27,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function GlobalBottomNav(props) {
   const classes = useStyles();
-  const appendSubtitle = () => {
+
+  function appendSubtitle() {
     const { pageTitle } = props;
     return pageTitle ? `- ${pageTitle}` : ''
+  }
+
+  function pageTitle() {
+    const { pageTitle } = props;
+    return pageTitle || 'Travel with Friends'
   }
 
   const [profileMenuOpen, setProfileMenu] = React.useState(null);
@@ -39,7 +45,7 @@ export default function GlobalBottomNav(props) {
     <AppBar position="static" className={classes.root}>
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          <Link color="inherit" href="/" underline="none">Travel with Friends {appendSubtitle()}</Link>
+          <Link color="inherit" href="/" underline="none">{pageTitle()}</Link>
         </Typography>
         <div>
           <Link color="inherit" href="/trips">

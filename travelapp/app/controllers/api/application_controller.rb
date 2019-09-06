@@ -1,12 +1,12 @@
 class Api::ApplicationController < ApplicationController
 
-  def api_response(success, data, params = {})
+  def api_response(success, data, response_params = {})
     render({
       :json => {
         :success => success,
         :data => data
       }
-    }.merge(params))
+    }.merge(response_params))
   end
 
   def authenticate_user!
