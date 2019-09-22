@@ -38,7 +38,11 @@ class Api::TripsController < Api::ApplicationController
     id = params[:id]
 
     trip = Trip.find_by(:id => id)
-    trip_data = trip.as_json(:include => [:trip_schedules])
+    trip_data = trip.as_json(:include => [
+      :created_by,
+      :destination_address,
+      :trip_schedules
+    ])
 
     if trip
       api_response(true, :trip => trip_data)

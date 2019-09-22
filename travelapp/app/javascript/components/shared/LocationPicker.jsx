@@ -8,24 +8,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import GoogleMapReact from 'google-map-react';
+
+import GoogleMap from './GoogleMap';
 
 // MapBox for places
 const MAPBOX_API_KEY = 'pk.eyJ1IjoianVtcGluZ2hvb2xpZ2FucyIsImEiOiJjanp5Ym5hZmExbHA1M2JtanJ6bmMxdHc2In0.is37RkutAvgsfB6MRVSJYg'
 const MAPBOX_URI = 'https://api.mapbox.com/geocoding/v5/mapbox.places'
 const MIN_AUTOCOMPLETE_CHAR = 3;
-// Google Maps for display
-const GOOGLE_API_KEY = 'AIzaSyAgI_Le7rDiOiOc9vciSNA6RnaAxDOEJAw';
-
 
 export default function LocationPicker(props) {
   // Props with defaults
   const {
     labelText = "Location",
     placeholderText = "Lake Tahoe, CA",
-    defaultCenter = { lat: 39.096848, lng: -120.032349 },
-    defaultZoom = 7,
-    mapHeight = '30vh',
     handleLocationSelect
   } = props;
 
@@ -34,7 +29,6 @@ export default function LocationPicker(props) {
     searchResults: {
       position: 'absolute',
       zIndex: '100',
-      mapHeight: mapHeight,
       width: '100%',
       backgroundColor: 'white',
       overflow: 'scroll'
@@ -44,8 +38,7 @@ export default function LocationPicker(props) {
 
   const [locationQuery, setLocationQuery] = React.useState('');
   const [searchResults, setSearchResults] = React.useState([]);
-  const [mapCenter, setMapCenter] = React.useState(defaultCenter);
-  const [mapZoom, setMapZoom] = React.useState(defaultZoom);
+  const [mapCenter, setMapCenter] = React.useState(false);
 
   function buildMapBoxUrl(query) {
     // MapBox request data
@@ -118,14 +111,11 @@ export default function LocationPicker(props) {
           }
         </List> }
       </Grid>
-      <Grid item xs={12} style={{ height: mapHeight, width: '100%' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
-          defaultCenter={defaultCenter}
-          defaultZoom={defaultZoom}
-          center={mapCenter}
-        >
-        </GoogleMapReact>
+      <Grid item xs={12}>
+        <GoogleMap
+          mapCenter={mapCenter}
+          mapHeight='30vh'
+        ></GoogleMap>
       </Grid>
     </Grid>
   );

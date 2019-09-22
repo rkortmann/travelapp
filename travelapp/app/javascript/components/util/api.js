@@ -1,5 +1,4 @@
-import React from 'react';
-
+// Generic api request wrapper
 function apiRequest(url, params = {}, data = false) {
   // Pass cookies and the CSRF token by default
   const defaultParams = {
@@ -28,6 +27,7 @@ function apiRequest(url, params = {}, data = false) {
   });
 }
 
+// Available API routes
 export default {
   trips: {
     index: () => {

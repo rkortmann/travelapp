@@ -4,7 +4,13 @@ Rails.application.routes.draw do
   root 'pages#index'
   get 'profile', :to => 'users#profile'
 
-  resources :trips, :only => [:index, :show]
+  resources :trips, :only => [:index, :show] do
+    member do
+      get '/details', :action => :show
+      get '/schedules', :action => :show
+      get '/availability', :action => :show
+    end
+  end
 
   namespace :api do
     # Users

@@ -111,7 +111,6 @@ export default function TripCreateDialog(props) {
             <LocationPicker
               labelText="Destination"
               handleLocationSelect={handleDestinationSelect}
-              mapHeight="50vh"
             />
           </Grid>
         </Grid>

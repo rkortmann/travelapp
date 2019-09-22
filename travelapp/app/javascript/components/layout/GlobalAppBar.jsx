@@ -16,12 +16,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: '#0d47a1',
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 12,
   },
+  toolbar: {
+    paddingRight: '4px'
+  },
+  toolbarSpacer: theme.mixins.toolbar
 }));
 
 
@@ -35,41 +36,41 @@ export default function GlobalBottomNav(props) {
 
   function pageTitle() {
     const { pageTitle } = props;
-    return pageTitle || 'Travel with Friends'
+    return pageTitle || 'Travel'
   }
 
-  const [profileMenuOpen, setProfileMenu] = React.useState(null);
-  const open = Boolean(profileMenuOpen);
-
   return (
-    <AppBar position="static" className={classes.root}>
-      <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          <Link color="inherit" href="/" underline="none">{pageTitle()}</Link>
-        </Typography>
-        <div>
-          <Link color="inherit" href="/trips">
-            <IconButton
-              aria-label="trips"
-              aria-controls="menu-trips"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <FlightTakeoffIcon />
-            </IconButton>
-          </Link>
-          <Link color="inherit" href="/profile">
-            <IconButton
-              aria-label="user profile"
-              aria-controls="menu-user"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Link>
-        </div>
-      </Toolbar>
-    </AppBar>
+    <React.Fragment>
+      <AppBar position="fixed" className={classes.root}>
+        <Toolbar className={classes.toolbar}>
+          <Typography variant="h6" className={classes.title}>
+            <Link color="inherit" href="/" underline="none">{pageTitle()}</Link>
+          </Typography>
+          <div>
+            <Link color="inherit" href="/trips">
+              <IconButton
+                aria-label="trips"
+                aria-controls="menu-trips"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <FlightTakeoffIcon />
+              </IconButton>
+            </Link>
+            <Link color="inherit" href="/profile">
+              <IconButton
+                aria-label="user profile"
+                aria-controls="menu-user"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Link>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <div className={classes.toolbarSpacer} />
+    </React.Fragment>
   );
 }

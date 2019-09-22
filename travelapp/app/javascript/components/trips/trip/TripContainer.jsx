@@ -6,12 +6,17 @@ import Api from '../../util/api';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import TripHeader from './TripHeader'
-import TripMap from './TripMap'
-import TripScheduleList from './TripScheduleList'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+import TripDetails from './TripDetails';
+import TripScheduleList from './TripScheduleList';
+import TripBottomNavigation from './TripBottomNavigation';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    padding: theme.spacing(1),
+    paddingBottom: theme.spacing(8)
+  },
   loader: {
     margin: theme.spacing(5),
     marginTop: theme.spacing(15)
@@ -51,9 +56,15 @@ export default function TripContainer(props) {
 
   return (
     <React.Fragment>
-      <TripHeader trip={trip} />
-      <TripMap trip={trip} />
-      <TripScheduleList tripSchedules={trip.trip_schedules} />
+      <Router>
+        <div className={classes.root}>
+          <Route exact path="/trips/:id/" render={() => <TripDetails trip={trip} />} />
+          <Route path="/trips/:id/details/" render={() => <TripDetails trip={trip} />} />
+          <Route path="/trips/:id/schedules/" render={() => <TripScheduleList tripSchedules={trip.trip_schedules} />} />
+          <Route path="/trips/:id/availability/" render={() => <h1>Availability</h1>} />
+        </div>
+        <TripBottomNavigation tripId={tripId} className={classes.bottomNav}/>
+      </Router>
     </React.Fragment>
   );
 }

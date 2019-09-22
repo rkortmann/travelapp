@@ -4,27 +4,29 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import HotelIcon from '@material-ui/icons/Hotel';
+
+import { safeGet } from './../../util/helpers';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2)
-  },
-  email: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    textAlign: 'center'
   }
 }));
 
-export default function Profile(props) {
+export default function TripScheduleAccommodationPrice(props) {
+  const {
+    price = '-'
+  } = props;
   const classes = useStyles();
-
-  const { user } = props
 
   return (
     <Grid container className={classes.root}>
-      <Grid item xs={12} sm={6}>
-        <Typography variant="h5" className={classes.email}>{user.email}</Typography>
-        <Typography variant="subtitle1">Last signed in at: {user.last_sign_in_at}</Typography>
+      <Grid item xs={12} className={classes.icon}>
+        <HotelIcon />
+      </Grid>
+      <Grid item xs={12}>
+        <Typography>${price}</Typography>
       </Grid>
     </Grid>
   );
