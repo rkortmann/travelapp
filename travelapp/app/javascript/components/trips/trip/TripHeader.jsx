@@ -30,7 +30,7 @@ export default function TripHeader(props) {
           {trip.title}
         </Typography>
         <Typography variant="subtitle1" className={classes.subtitle}>
-          { safeGet(trip, t => t.destination_address.name, '-') }
+          { safeGet(() => trip.destination_address.name, 'Unknown location') }
         </Typography>
       </Grid>
     </Grid>

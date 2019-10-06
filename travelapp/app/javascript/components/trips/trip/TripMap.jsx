@@ -18,10 +18,17 @@ export default function TripMap(props) {
   } = props;
   const classes = useStyles();
 
-  const mapCenter = trip.destination_address ? {
-    lat: trip.destination_address.latitude,
-    lng: trip.destination_address.longitude,
-  } : false;
+  const destination = trip.destination_address;
+
+  const lat = safeGet(() => trip.destination_address.latitude);
+  const lng = safeGet(() => trip.destination_address.longitude);
+
+  // Nothing to render if we don't have valid coords
+  if(!lat || !lng) {
+    return null;
+  }
+
+  const mapCenter = { lat: lat, lng: lng };
 
   return (
     <div className={classes.root}>
