@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_192415) do
     t.bigint "destination_address_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "day_of_week_exclusions", array: true
+    t.string "day_of_week_restrictions", default: "none", null: false
     t.index ["created_by_id"], name: "index_trips_on_created_by_id"
     t.index ["destination_address_id"], name: "index_trips_on_destination_address_id"
   end

@@ -1,4 +1,6 @@
 class Trip < ApplicationRecord
+  enum :day_of_week_restrictions => [ :active, :archived ]
+
   belongs_to :created_by, :class_name => 'User', :foreign_key => :created_by_id
   belongs_to :destination_address, :class_name => 'Address', :foreign_key => :destination_address_id
 
@@ -25,7 +27,7 @@ class Trip < ApplicationRecord
       working_date = working_date + 1.day
 
       # Check trip day of week exclusions
-      next unless potential_range.any? { |date| day_of_week_exclusions.any? { |exclusion| exclusion.include? date.wday }}
+      next unless potential_range.any? { |date| wday_index_for(day_of_week_restrictions).any? { |exclusion| exclusion.include? date.wday }}
 
       # Check excluded dates
       next if excluded_dates.any? { |excluded_date| (potential_range).include? excluded_date.to_date }
@@ -41,5 +43,22 @@ class Trip < ApplicationRecord
 
     self.trip_schedules = updated_trip_schedules
     save!
+  end
+
+  def wday_index_for(exclusion_type)
+    case exclusion_type
+    when 'none'
+      []
+    when 'saturday'
+      [[6]]
+    when 'sunday'
+      [[0]]
+    when 'either'
+      [[0],[6]]
+    when 'both'
+      [[0,6]]
+    else
+      []
+    end
   end
 end

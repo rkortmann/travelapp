@@ -68,23 +68,23 @@ export default function TripCreateDialog(props) {
     return [
       {
         label: 'None',
-        value: []
+        value: 'none'
       },
       {
         label: 'Saturday',
-        value: [{ days: [6] }]
+        value: 'saturday'
       },
       {
         label: 'Sunday',
-        value: [{ days: [0] }]
+        value: 'sunday'
       },
       {
         label: 'Either',
-        value: [{ days: [6] }, { days: [0] }]
+        value: 'either'
       },
       {
         label: 'Both',
-        value: [{ days: [6, 0] }]
+        value: 'both'
       }
     ]
   }
