@@ -16,7 +16,7 @@ import TripAvailability from './TripAvailability';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
-    paddingBottom: theme.spacing(6)
+    paddingBottom: theme.spacing(8)
   },
   loader: {
     margin: theme.spacing(5),

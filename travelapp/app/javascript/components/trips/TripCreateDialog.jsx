@@ -16,7 +16,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
+import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
@@ -48,6 +51,7 @@ export default function TripCreateDialog(props) {
 
   const [title, setTitle] = React.useState('');
   const [duration, setDuration] = React.useState('');
+  const [dowRestrictions, setDowRestrictions] = React.useState(0);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [selectedDestination, setSelectedDestination] = React.useState(false);
@@ -58,6 +62,31 @@ export default function TripCreateDialog(props) {
 
   function handleDestinationSelect(destination) {
     setSelectedDestination(destination);
+  }
+
+  function dowRestrictionOptions() {
+    return [
+      {
+        label: 'None',
+        value: []
+      },
+      {
+        label: 'Saturday',
+        value: [{ days: [6] }]
+      },
+      {
+        label: 'Sunday',
+        value: [{ days: [0] }]
+      },
+      {
+        label: 'Either',
+        value: [{ days: [6] }, { days: [0] }]
+      },
+      {
+        label: 'Both',
+        value: [{ days: [6, 0] }]
+      }
+    ]
   }
 
   function handleSubmit() {
@@ -71,6 +100,7 @@ export default function TripCreateDialog(props) {
     const data = {
       title: title,
       duration: duration,
+      dowRestrictions: dowRestrictionOptions()[dowRestrictions].value,
       startDate: startDate,
       endDate: endDate,
       destination: destination
@@ -126,6 +156,25 @@ export default function TripCreateDialog(props) {
                 shrink: true,
               }}
             />
+          </Grid>
+
+          <Grid item xs={12}>
+            <InputLabel htmlFor="weekend-restrictions">Weekend Restrictions</InputLabel>
+              <Select
+                value={dowRestrictions}
+                onChange={(event) => setDowRestrictions(event.target.value)}
+                fullWidth
+                inputProps={{
+                  name: 'weekend-restrictions',
+                  id: 'weekend-restrictions',
+                }}
+              >
+                {
+                  dowRestrictionOptions().map((restriction, idx) => {
+                    return <MenuItem key={idx} value={idx}>{restriction.label}</MenuItem>    
+                  })
+                }
+              </Select>
           </Grid>
 
           <MuiPickersUtilsProvider utils={MomentUtils}>

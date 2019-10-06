@@ -18,8 +18,14 @@ class Api::TripsController < Api::ApplicationController
       :startDate,
       :endDate,
       :duration,
+      :dowRestrictions => [{:days => []}],
       :destination => [:name, :lat, :lng]
     )
+
+    # Format this to fit in DB
+    dow_restriction = safe_params[:dowRestrictions].map do |restriction_set|
+      restriction_set[:days]
+    end
 
     trip = Trip.create!(
       :title => safe_params[:title],
@@ -27,6 +33,7 @@ class Api::TripsController < Api::ApplicationController
       :boundry_start => safe_params[:startDate].to_datetime,
       :boundry_end => safe_params[:endDate].to_datetime,
       :duration => safe_params[:duration],
+      :day_of_week_exclusions => dow_restriction,
       :destination_address => Address.create!(
         :name => safe_params[:destination][:name],
         :latitude => safe_params[:destination][:lat],

@@ -17,18 +17,26 @@ class Trip < ApplicationRecord
     updated_trip_schedules = []    
     working_date = boundry_start
     while working_date + duration.days < boundry_end do
-      potential_start = working_date
-      potential_end = working_date + duration.days
+      potential_start = working_date.to_date
+      potential_end = (working_date + duration.days).to_date
+      potential_range = (potential_start..potential_end)
 
-      if excluded_dates.none? { |excluded_date| (potential_start..potential_end).include? excluded_date }
-        updated_trip_schedules << TripSchedule.where(
-          :trip => self,
-          :start_date => potential_start,
-          :end_date => potential_end
-        ).first_or_initialize
-      end
-
+      # tick the working date
       working_date = working_date + 1.day
+
+      # Check trip day of week exclusions
+      next unless potential_range.any? { |date| day_of_week_exclusions.any? { |exclusion| exclusion.include? date.wday }}
+
+      # Check excluded dates
+      next if excluded_dates.any? { |excluded_date| (potential_range).include? excluded_date.to_date }
+
+      # Create a trip schedule if it doesn't already exist
+      ap potential_start
+      updated_trip_schedules << TripSchedule.where(
+        :trip => self,
+        :start_date => potential_start.in_time_zone('EST'),
+        :end_date => potential_end.in_time_zone('EST')
+      ).first_or_initialize
     end
 
     self.trip_schedules = updated_trip_schedules
