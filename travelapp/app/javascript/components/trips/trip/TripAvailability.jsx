@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import Api from '../../util/api';
 
 import Grid from '@material-ui/core/Grid';
-import DayPicker, { DateUtils } from 'react-day-picker';
-import Moment from 'react-moment';
-import 'react-day-picker/lib/style.css';
+import TripAvailabilityCalendar from './TripAvailabilityCalendar';
+import SaveExclusionDatesFab from './SaveExclusionDatesFab';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    textAlign: 'center',
-    '& .DayPicker': {
-      fontSize: '1.2rem'
-    }
+    textAlign: 'center'
   }
 }));
 
@@ -22,67 +19,51 @@ export default function TripAvailability(props) {
   } = props;
   const classes = useStyles();
 
+  const [isFetching, setIsFetching] = React.useState(false);
   const [selectedDays, setSelectedDays] = React.useState([]);
 
-  function availableMonths() {
-    if(!trip.boundry_start || !trip.boundry_end) {
-      return 0;
-    }
-
-    const start = new Date(trip.boundry_start);
-    const end = new Date(trip.boundry_end);
-
-    let months = (end.getFullYear() - start.getFullYear()) * 12;
-    months += end.getMonth() - start.getMonth() + 1;
-
-    return months <= 0 ? 0 : months;
+  // Fetch existing exclusion dates
+  const fetchExclusionDates = async () => {
+    const response = await Api.trips.showExclusionDates(trip.id);
+    const formattedDates = formatExclusionDates(response.data.trip_exclusion_dates);
+    setSelectedDays(formattedDates);
+  }
+  const doFetchExclusionDates = () => { fetchExclusionDates(); }
+  if(trip.id) {
+    React.useEffect(doFetchExclusionDates, []);
   }
 
-  function buildCalendars() {
-    let calendars = [];
-
-    const start = new Date(trip.boundry_start);
-    const end = new Date(trip.boundry_end);
-    const disabledDays = [
-      { before: start },
-      { after: end }
-    ];
-
-    for(let i = 0; i < availableMonths(); i++) {
-      // Which month is this
-      const startDate = new Date(start);
-      const month = new Date(startDate.setMonth(startDate.getMonth() + i));
-
-      calendars.push(<DayPicker
-        key={i}
-        selectedDays={selectedDays}
-        onDayClick={handleDayClick}
-        month={month}
-        canChangeMonth={false}
-        disabledDays={disabledDays}
-      />);
+  // Save new exclusion dates
+  function handleSave() {
+    const data = {
+      exclusionDates: selectedDays
     }
-
-    return calendars
+    const updateExclusionDatesRequest = async () => {
+      const response = await Api.trips.updateExclusionDates(trip.id, data);
+      const formattedDates = formatExclusionDates(response.data.trip_exclusion_dates);
+      setSelectedDays(formattedDates);
+    }
+    updateExclusionDatesRequest();
   }
 
-  function handleDayClick(day, { selected }) {
-    let selectedDaysCopy = [...selectedDays];
-    if (selected) {
-      const selectedIndex = selectedDaysCopy.findIndex(selectedDay =>
-        DateUtils.isSameDay(selectedDay, day)
-      );
-      selectedDaysCopy.splice(selectedIndex, 1);
-    } else {
-      selectedDaysCopy.push(day);
-    }
-    setSelectedDays(selectedDaysCopy);
+  // Cast date strings to date
+  function formatExclusionDates(trip_exclusion_dates) {
+    return trip_exclusion_dates.map((trip_exclusion_date) => {
+      return new Date(trip_exclusion_date.excluded_date);
+    });
   }
 
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
-        { buildCalendars() }
+        <TripAvailabilityCalendar
+          trip={trip}
+          selectedDays={selectedDays}
+          setSelectedDays={setSelectedDays}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <SaveExclusionDatesFab handleSave={handleSave} />
       </Grid>
     </Grid>
   );

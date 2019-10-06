@@ -3,34 +3,36 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles(theme => ({
   root: {},
   fab: {
     position: 'fixed',
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(9),
     right: theme.spacing(2),
+    zIndex: 100
   },
   extendedIcon: {
     marginRight: theme.spacing(1)
   }
 }));
 
-export default function TripCreateFab(props) {
+export default function SaveExclusionDatesFab(props) {
   const classes = useStyles();
-  const { handleClick } = props;
+  const { handleSave } = props;
 
   return (
     <Fab
-      color="secondary"
       variant="extended"
-      aria-label="add"
-      onClick={handleClick}
+      size="medium"
+      color="primary"
+      aria-label="save"
       className={classes.fab}
+      onClick={handleSave}
     >
-      <AddIcon className={classes.extendedIcon} />
-      Create a Trip
+      <SaveIcon className={classes.extendedIcon} />
+      Save availability dates
     </Fab>
   );
 }

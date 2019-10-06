@@ -47,13 +47,13 @@ export default function TripScheduleContainer(props) {
           <div className={classes.spacer}></div>
         </Grid>
         <Grid item xs={4}>
-          <TripScheduleFlightPrice price='120' />
+          <TripScheduleFlightPrice />
         </Grid>
         <Grid item xs={4}>
-          <TripScheduleAccommodationPrice price='345' />
+          <TripScheduleAccommodationPrice />
         </Grid>
         <Grid item xs={4}>
-          <TripScheduleEntertainmentPrice price='100' />
+          <TripScheduleEntertainmentPrice />
         </Grid>
       </Grid>
     </Paper>

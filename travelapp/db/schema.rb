@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_29_151637) do
+ActiveRecord::Schema.define(version: 2019_10_06_044607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,16 @@ ActiveRecord::Schema.define(version: 2019_08_29_151637) do
     t.decimal "rate", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "trip_exclusion_dates", force: :cascade do |t|
+    t.bigint "trip_id", null: false
+    t.bigint "created_by_id", null: false
+    t.datetime "excluded_date", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["created_by_id"], name: "index_trip_exclusion_dates_on_created_by_id"
+    t.index ["trip_id"], name: "index_trip_exclusion_dates_on_trip_id"
   end
 
   create_table "trip_schedules", force: :cascade do |t|
@@ -137,6 +147,8 @@ ActiveRecord::Schema.define(version: 2019_08_29_151637) do
   add_foreign_key "flights", "trip_schedules"
   add_foreign_key "flights_rates", "flights"
   add_foreign_key "flights_rates", "rates"
+  add_foreign_key "trip_exclusion_dates", "trips"
+  add_foreign_key "trip_exclusion_dates", "users", column: "created_by_id"
   add_foreign_key "trip_schedules", "trips"
   add_foreign_key "trip_schedules_accommodations", "accommodations"
   add_foreign_key "trip_schedules_accommodations", "trip_schedules"

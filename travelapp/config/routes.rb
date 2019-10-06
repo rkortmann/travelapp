@@ -18,7 +18,10 @@ Rails.application.routes.draw do
 
     # Your trips
     resources :trips do
-      resources :trip_schedules
+      get '/trip_schedules', :to => 'trips#schedules'
+
+      get '/trip_exclusion_dates', :to => 'trips#exclusion_dates'
+      post '/trip_exclusion_dates', :to => 'trips#update_exclusion_dates'
     end
   end
 end

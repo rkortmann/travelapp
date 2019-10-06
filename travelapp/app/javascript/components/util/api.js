@@ -40,6 +40,17 @@ export default {
     },
     show: (id) => {
       return apiRequest(`/api/trips/${id}`)
+    },
+    showExclusionDates: (id) => {
+      return apiRequest(`/api/trips/${id}/trip_exclusion_dates`)
+    },
+    updateExclusionDates: (id, data) => {
+      return apiRequest(`/api/trips/${id}/trip_exclusion_dates`, {
+        method: 'post'
+      }, data);
+    },
+    showTripSchedules: (id) => {
+      return apiRequest(`/api/trips/${id}/trip_schedules`)
     }
   }
 }

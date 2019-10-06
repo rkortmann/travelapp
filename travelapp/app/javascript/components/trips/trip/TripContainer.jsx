@@ -16,7 +16,7 @@ import TripAvailability from './TripAvailability';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(6)
   },
   loader: {
     margin: theme.spacing(5),
@@ -42,7 +42,10 @@ export default function TripContainer(props) {
 
     setIsFetching(false);
   }
-  React.useEffect(() => { fetchTrip(); }, []);
+  const doFetchTrip = () => { fetchTrip(); }
+
+  // Run this on first render
+  React.useEffect(doFetchTrip, []);
 
   // Loading
   if(isFetching) {
