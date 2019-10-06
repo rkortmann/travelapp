@@ -15,12 +15,18 @@ class Api::TripsController < Api::ApplicationController
   def create
     safe_params = params.permit(
       :title,
+      :startDate,
+      :endDate,
+      :duration,
       :destination => [:name, :lat, :lng]
     )
 
     trip = Trip.create!(
       :title => safe_params[:title],
       :created_by => current_user,
+      :boundry_start => safe_params[:startDate].to_datetime,
+      :boundry_end => safe_params[:endDate].to_datetime,
+      :duration => safe_params[:duration],
       :destination_address => Address.create!(
         :name => safe_params[:destination][:name],
         :latitude => safe_params[:destination][:lat],

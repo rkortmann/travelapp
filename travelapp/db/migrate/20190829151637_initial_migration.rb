@@ -49,7 +49,12 @@ class InitialMigration < ActiveRecord::Migration[6.0]
 
     create_table :trips do |t|
       t.string :title, :null => false
-      t.integer :duration
+
+      # Trip length and boundries
+      t.datetime :boundry_start, :null => false
+      t.datetime :boundry_end, :null => false
+      t.integer :duration, :null => false
+
       t.references :created_by, :foreign_key => { :to_table => :users }, :null => false
       t.references :destination_address, :foreign_key => { :to_table => :addresses }, :null => false
 

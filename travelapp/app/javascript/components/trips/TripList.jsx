@@ -22,7 +22,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(10)
   },
   emptyDesc: {
-    marginTop: theme.spacing(5)
+    margin: theme.spacing(5, 2)
+  },
+  listItem: {
+    cursor: 'pointer'
   }
 }));
 
@@ -57,10 +60,14 @@ export default function TripList(props) {
 
   if(trips.length == 0) {
     return(
-      <React.Fragment>
-        <Typography variant="h4" align="center" className={classes.emptyHeader}>Ready to start a trip?</Typography>
-        <Typography variant="subtitle1" align="center" className={classes.emptyDesc}>All trips you create or participate in will show up here...</Typography>
-      </React.Fragment>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="h4" align="center" className={classes.emptyHeader}>Ready to start a trip?</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" align="center" className={classes.emptyDesc}>All trips you create or participate in will show up here...</Typography>
+        </Grid>
+      </Grid>
     )
   }
 
@@ -70,7 +77,7 @@ export default function TripList(props) {
         {
           trips.map((trip, idx) => {
             return (
-              <ListItem key={idx} onClick={() => { selectTrip(trip.id); }}>
+              <ListItem key={idx} onClick={() => { selectTrip(trip.id); }} className={classes.listItem}>
                 <ListItemAvatar>
                   <Avatar>
                     <ImageIcon />

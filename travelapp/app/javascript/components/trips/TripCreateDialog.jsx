@@ -47,6 +47,9 @@ export default function TripCreateDialog(props) {
   const { open, handleRefreshTrips, handleClose } = props;
 
   const [title, setTitle] = React.useState('');
+  const [duration, setDuration] = React.useState('');
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [endDate, setEndDate] = React.useState(new Date());
   const [selectedDestination, setSelectedDestination] = React.useState(false);
 
   function handleTitleChange(event) {
@@ -67,6 +70,9 @@ export default function TripCreateDialog(props) {
 
     const data = {
       title: title,
+      duration: duration,
+      startDate: startDate,
+      endDate: endDate,
       destination: destination
     }
 
@@ -88,7 +94,7 @@ export default function TripCreateDialog(props) {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography>Give this trip a name and destination, we'll take care of dates in the next step.</Typography>
           </Grid>
@@ -96,9 +102,9 @@ export default function TripCreateDialog(props) {
           <Grid item xs={12}>
             <TextField
               label="Name"
-              placeholder="Ski Trip in Tahoe"
+              placeholder="What's the occassion"
               value={title}
-              onChange={handleTitleChange}
+              onChange={(e) => { setTitle(e.target.value) }}
               fullWidth
               margin="normal"
               InputLabelProps={{
@@ -106,6 +112,56 @@ export default function TripCreateDialog(props) {
               }}
             />
           </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              label="Trip Duration in Days"
+              placeholder="How long"
+              value={duration}
+              onChange={(e) => { setDuration(e.target.value) }}
+              fullWidth
+              margin="normal"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <Grid item xs={6}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="M/D/Y"
+                margin="normal"
+                id="date-picker-inline"
+                label="Range Start"
+                value={startDate}
+                onChange={(date) => { setStartDate(date) }}
+                autoOk={true}
+                KeyboardButtonProps={{
+                  'aria-label': 'change start date',
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="M/D/Y"
+                margin="normal"
+                id="date-picker-inline"
+                label="Range End"
+                value={endDate}
+                onChange={(date) => { setEndDate(date) }}
+                autoOk={true}
+                KeyboardButtonProps={{
+                  'aria-label': 'change end date',
+                }}
+              />
+            </Grid>
+          </MuiPickersUtilsProvider>
 
           <Grid item xs={12}>
             <LocationPicker

@@ -100,6 +100,9 @@ ActiveRecord::Schema.define(version: 2019_08_29_151637) do
 
   create_table "trips", force: :cascade do |t|
     t.string "title", null: false
+    t.datetime "boundry_start", null: false
+    t.datetime "boundry_end", null: false
+    t.integer "duration", null: false
     t.bigint "created_by_id", null: false
     t.bigint "destination_address_id", null: false
     t.datetime "created_at", precision: 6, null: false
