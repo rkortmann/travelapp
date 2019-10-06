@@ -20,10 +20,10 @@ export default function TripDetails(props) {
 
   return (
     <Grid container className={classes.root}>
-      <Grid item md={4} xs={12}>
+      <Grid item xs={12}>
         <TripHeader trip={trip} />
       </Grid>
-      <Grid item md={8} xs={12}>
+      <Grid item xs={12}>
         <TripMap trip={trip} />
       </Grid>
     </Grid>

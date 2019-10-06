@@ -13,9 +13,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function TripScheduleList(props) {
   const {
-    tripSchedules = []
+    trip
   } = props;
-  const classes = useStyles()
+  const classes = useStyles();
+
+  const tripSchedules = trip.trip_schedules || [];
 
   return (
     <Grid container className={classes.root} spacing={2}>

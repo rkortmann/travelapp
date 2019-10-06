@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import TripDetails from './TripDetails';
 import TripScheduleList from './TripScheduleList';
 import TripBottomNavigation from './TripBottomNavigation';
+import TripAvailability from './TripAvailability';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,8 +61,8 @@ export default function TripContainer(props) {
         <div className={classes.root}>
           <Route exact path="/trips/:id/" render={() => <TripDetails trip={trip} />} />
           <Route path="/trips/:id/details/" render={() => <TripDetails trip={trip} />} />
-          <Route path="/trips/:id/schedules/" render={() => <TripScheduleList tripSchedules={trip.trip_schedules} />} />
-          <Route path="/trips/:id/availability/" render={() => <h1>Availability</h1>} />
+          <Route path="/trips/:id/schedules/" render={() => <TripScheduleList trip={trip} />} />
+          <Route path="/trips/:id/availability/" render={() => <TripAvailability trip={trip} />} />
         </div>
         <TripBottomNavigation tripId={tripId} className={classes.bottomNav}/>
       </Router>
