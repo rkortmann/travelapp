@@ -5,7 +5,7 @@ class Api::TripsController < Api::ApplicationController
   # Basic list of trips
   #
   def index
-    trips = current_user.trips.as_json(:include => [:created_by, :destination_address])
+    trips = current_user.trips.as_json(:include => [:destination_address])
     api_response(true, :trips => trips)
   end
 
@@ -24,7 +24,6 @@ class Api::TripsController < Api::ApplicationController
 
     trip = Trip.create!(
       :title => safe_params[:title],
-      :created_by => current_user,
       :boundry_start => safe_params[:startDate].to_datetime,
       :boundry_end => safe_params[:endDate].to_datetime,
       :duration => safe_params[:duration],
@@ -34,6 +33,11 @@ class Api::TripsController < Api::ApplicationController
         :latitude => safe_params[:destination][:lat],
         :longitude => safe_params[:destination][:lng],
       )
+    )
+
+    TripsUser.create!(
+      :trip => trip,
+      :user => current_user
     )
 
     return api_response(true, :trip => trip)
@@ -47,9 +51,8 @@ class Api::TripsController < Api::ApplicationController
 
     trip = Trip.find_by(:id => id)
     trip_data = trip.as_json(:include => [
-      :created_by,
       :destination_address,
-      :trip_schedules
+      :users
     ])
 
     if trip
@@ -99,13 +102,18 @@ class Api::TripsController < Api::ApplicationController
         :created_by => current_user,
         :trip => trip,
         :excluded_date => date
-      ).first_or_initialize
+      ).first_or_create!
     end
 
-    trip.trip_exclusion_dates = trip_exclusion_dates
+    # Clear our exclusions that weren't in this post
+    trip.trip_exclusion_dates.
+      where(:created_by => current_user).
+      where.not(:id => trip_exclusion_dates.map(&:id)).
+      destroy_all
+
     trip.refresh_trip_schedules!
     trip.save!
 
-    return api_response(true, :trip_exclusion_dates => trip.trip_exclusion_dates)
+    return api_response(true, :trip_exclusion_dates => trip_exclusion_dates)
   end
 end

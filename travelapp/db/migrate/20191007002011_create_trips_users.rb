@@ -6,5 +6,7 @@ class CreateTripsUsers < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    remove_column :trips, :created_by_id
   end
 end

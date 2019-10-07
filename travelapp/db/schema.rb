@@ -114,20 +114,18 @@ ActiveRecord::Schema.define(version: 2019_10_07_002142) do
     t.datetime "boundry_start", null: false
     t.datetime "boundry_end", null: false
     t.integer "duration", null: false
-    t.bigint "created_by_id", null: false
     t.bigint "destination_address_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "day_of_week_restrictions", default: "none", null: false
-    t.index ["created_by_id"], name: "index_trips_on_created_by_id"
     t.index ["destination_address_id"], name: "index_trips_on_destination_address_id"
   end
 
   create_table "trips_invites", force: :cascade do |t|
     t.bigint "trip_id", null: false
     t.bigint "invited_by_id", null: false
-    t.uuid "hash", default: -> { "uuid_generate_v4()" }, null: false
-    t.string "invitee_email", null: false
+    t.string "code", null: false
+    t.string "invitee_email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["invited_by_id"], name: "index_trips_invites_on_invited_by_id"
@@ -177,7 +175,6 @@ ActiveRecord::Schema.define(version: 2019_10_07_002142) do
   add_foreign_key "trip_schedules_flights", "flights"
   add_foreign_key "trip_schedules_flights", "trip_schedules"
   add_foreign_key "trips", "addresses", column: "destination_address_id"
-  add_foreign_key "trips", "users", column: "created_by_id"
   add_foreign_key "trips_invites", "trips"
   add_foreign_key "trips_invites", "users", column: "invited_by_id"
   add_foreign_key "trips_users", "trips"

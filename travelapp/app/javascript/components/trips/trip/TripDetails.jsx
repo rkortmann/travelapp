@@ -37,14 +37,6 @@ export default function TripDetails(props) {
         <Grid item xs={12}>
           <TripMap trip={trip} />
         </Grid>
-        <Grid item xs={12} className={classes.duration}>
-          <Typography variant="overline">
-            Duration
-          </Typography>
-          <Typography variant="h5" component="h5">
-            {trip.duration} days
-          </Typography>
-        </Grid>
         <Grid item xs={6} className={classes.date}>
           <Typography variant="overline">
             Range Start
@@ -59,6 +51,22 @@ export default function TripDetails(props) {
           </Typography>
           <Typography variant="h5" component="h5">
             <Moment format="MMM. Do">{ trip.boundry_end }</Moment>
+          </Typography>
+        </Grid>
+        <Grid item sm={6} xs={12} className={classes.duration}>
+          <Typography variant="overline">
+            Duration
+          </Typography>
+          <Typography variant="h5" component="h5">
+            {trip.duration} days
+          </Typography>
+        </Grid>
+        <Grid item sm={6} xs={12} className={classes.duration}>
+          <Typography variant="overline">
+            Weekend Restrictions
+          </Typography>
+          <Typography variant="h5" component="h5">
+            {trip.day_of_week_restrictions}
           </Typography>
         </Grid>
         <Grid item xs={12}>

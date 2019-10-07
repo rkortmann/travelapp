@@ -4,12 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Api from '../../util/api';
 
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import TripScheduleContainer from './TripScheduleContainer'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(1)
-  }
+  root: {}
 }));
 
 export default function TripScheduleList(props) {
@@ -35,6 +34,11 @@ export default function TripScheduleList(props) {
 
   return (
     <Grid container className={classes.root} spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h6">
+          Available trip dates: {isFetching ? '-' : tripSchedules.length}
+        </Typography>
+      </Grid>
       {
         tripSchedules.map((schedule, idx) => {
           return (

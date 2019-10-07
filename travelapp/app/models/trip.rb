@@ -1,8 +1,10 @@
 class Trip < ApplicationRecord
   # enum :day_of_week_restrictions => %w[saturday sunday either both]
 
-  belongs_to :created_by, :class_name => 'User', :foreign_key => :created_by_id
   belongs_to :destination_address, :class_name => 'Address', :foreign_key => :destination_address_id
+
+  has_many :trips_users, :dependent => :destroy
+  has_many :users, :through => :trips_users
 
   has_many :trip_exclusion_dates, :dependent => :destroy
   alias exclusion_dates trip_exclusion_dates
@@ -46,8 +48,10 @@ class Trip < ApplicationRecord
     save!
   end
 
+  private
+
   def dow_restriction_indexes
-    case day_of_week_restrictions.to_sym
+    case day_of_week_restrictions&.to_sym
     when :saturday
       [[6]]
     when :sunday

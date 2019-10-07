@@ -6,11 +6,13 @@ Rails.application.routes.draw do
 
   resources :trips, :only => [:index, :show] do
     member do
-      get '/details', :action => :show
-      get '/schedules', :action => :show
-      get '/availability', :action => :show
+      get 'details', :action => :show
+      get 'schedules', :action => :show
+      get 'availability', :action => :show
     end
   end
+
+  get 'invite/:invite_code', :to => 'invites#accept'
 
   namespace :api do
     # Users
@@ -18,10 +20,12 @@ Rails.application.routes.draw do
 
     # Your trips
     resources :trips do
-      get '/trip_schedules', :to => 'trips#schedules'
+      # Get and set user exclusion dates
+      get 'trip_exclusion_dates', :to => 'trips#exclusion_dates'
+      post 'trip_exclusion_dates', :to => 'trips#update_exclusion_dates'
 
-      get '/trip_exclusion_dates', :to => 'trips#exclusion_dates'
-      post '/trip_exclusion_dates', :to => 'trips#update_exclusion_dates'
+      # Available schedules for a trip
+      get 'trip_schedules', :to => 'trips#schedules'
     end
   end
 end

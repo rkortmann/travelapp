@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Api from '../../util/api';
 
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 import TripAvailabilityCalendar from './TripAvailabilityCalendar';
 import SaveExclusionDatesFab from './SaveExclusionDatesFab';
 
@@ -24,9 +26,11 @@ export default function TripAvailability(props) {
 
   // Fetch existing exclusion dates
   const fetchExclusionDates = async () => {
+    setIsFetching(true);
     const response = await Api.trips.showExclusionDates(trip.id);
     const formattedDates = formatExclusionDates(response.data.trip_exclusion_dates);
     setSelectedDays(formattedDates);
+    setIsFetching(false);
   }
   const doFetchExclusionDates = () => { fetchExclusionDates(); }
   if(trip.id) {
@@ -42,6 +46,9 @@ export default function TripAvailability(props) {
       const response = await Api.trips.updateExclusionDates(trip.id, data);
       const formattedDates = formatExclusionDates(response.data.trip_exclusion_dates);
       setSelectedDays(formattedDates);
+
+      // Redirect to schedules for now
+      window.location = `/trips/${trip.id}/schedules`
     }
     updateExclusionDatesRequest();
   }
@@ -53,8 +60,24 @@ export default function TripAvailability(props) {
     });
   }
 
+    // Loading
+  if(isFetching) {
+    return (
+      <Grid container direction="row" justify="center" alignItems="center">
+        <Grid item>
+          <CircularProgress className={classes.loader} />
+        </Grid>
+      </Grid>
+    )
+  }
+
   return (
     <Grid container className={classes.root} spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h6">
+          Dates you are not available
+        </Typography>
+      </Grid>
       <Grid item xs={12}>
         <TripAvailabilityCalendar
           trip={trip}
