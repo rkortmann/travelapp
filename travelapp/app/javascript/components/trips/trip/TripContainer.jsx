@@ -61,12 +61,14 @@ export default function TripContainer(props) {
   return (
     <React.Fragment>
       <Router>
-        <div className={classes.root}>
-          <Route exact path="/trips/:id/" render={() => <TripDetails trip={trip} />} />
-          <Route path="/trips/:id/details/" render={() => <TripDetails trip={trip} />} />
-          <Route path="/trips/:id/schedules/" render={() => <TripScheduleList trip={trip} />} />
-          <Route path="/trips/:id/availability/" render={() => <TripAvailability trip={trip} />} />
-        </div>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item sm={9} xs={12} className={classes.root}>
+            <Route exact path="/trips/:id/" render={() => <TripDetails trip={trip} />} />
+            <Route path="/trips/:id/details/" render={() => <TripDetails trip={trip} />} />
+            <Route path="/trips/:id/schedules/" render={() => <TripScheduleList trip={trip} />} />
+            <Route path="/trips/:id/availability/" render={() => <TripAvailability trip={trip} />} />
+          </Grid>
+        </Grid>
         <TripBottomNavigation tripId={tripId} className={classes.bottomNav}/>
       </Router>
     </React.Fragment>

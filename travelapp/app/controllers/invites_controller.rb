@@ -12,8 +12,6 @@ class InvitesController < ApplicationController
     if current_user && invite
       trip = invite.trip
 
-      ap current_user
-
       TripsUser.where(
         :trip => trip,
         :user => current_user
