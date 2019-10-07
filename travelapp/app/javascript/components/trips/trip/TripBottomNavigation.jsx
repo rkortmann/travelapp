@@ -7,8 +7,8 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Link } from 'react-router-dom';
 
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import ListIcon from '@material-ui/icons/List';
 import DateRangeIcon from '@material-ui/icons/DateRange';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles({
   root: {
@@ -59,13 +59,13 @@ export default function TripBottomNavigation(props) {
         label="Schedules"
         component={Link}
         to={`/trips/${tripId}/schedules`}
-        icon={<DateRangeIcon />}
+        icon={<ListIcon />}
       />
       <BottomNavigationAction
         label="Availability"
         component={Link}
         to={`/trips/${tripId}/availability`}
-        icon={<AccountCircleIcon />}
+        icon={<DateRangeIcon />}
       />
     </BottomNavigation>
   );

@@ -1,0 +1,2 @@
+class TripsInvite < ApplicationRecord
+end

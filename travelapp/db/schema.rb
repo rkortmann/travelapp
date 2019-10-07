@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_192415) do
+ActiveRecord::Schema.define(version: 2019_10_07_002142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "accommodations", force: :cascade do |t|
     t.bigint "trip_schedule_id", null: false
@@ -122,6 +123,26 @@ ActiveRecord::Schema.define(version: 2019_10_06_192415) do
     t.index ["destination_address_id"], name: "index_trips_on_destination_address_id"
   end
 
+  create_table "trips_invites", force: :cascade do |t|
+    t.bigint "trip_id", null: false
+    t.bigint "invited_by_id", null: false
+    t.uuid "hash", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "invitee_email", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["invited_by_id"], name: "index_trips_invites_on_invited_by_id"
+    t.index ["trip_id"], name: "index_trips_invites_on_trip_id"
+  end
+
+  create_table "trips_users", force: :cascade do |t|
+    t.bigint "trip_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trip_id"], name: "index_trips_users_on_trip_id"
+    t.index ["user_id"], name: "index_trips_users_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -157,5 +178,9 @@ ActiveRecord::Schema.define(version: 2019_10_06_192415) do
   add_foreign_key "trip_schedules_flights", "trip_schedules"
   add_foreign_key "trips", "addresses", column: "destination_address_id"
   add_foreign_key "trips", "users", column: "created_by_id"
+  add_foreign_key "trips_invites", "trips"
+  add_foreign_key "trips_invites", "users", column: "invited_by_id"
+  add_foreign_key "trips_users", "trips"
+  add_foreign_key "trips_users", "users"
   add_foreign_key "users", "addresses", column: "origin_address_id"
 end
