@@ -7,4 +7,4 @@ How to run
 - `docker-compose run web rails db:create`
 - `docker-compose run web rails db:migrate`
 - `docker-compose up`
-- `docker-compose run web ./bin/webpack-dev-server` (in a separate session to hot reload JS)
+- `docker-compose exec web ./bin/webpack-dev-server` (in a separate session to hot reload JS)
